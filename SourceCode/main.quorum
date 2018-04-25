@@ -1,4 +1,5 @@
 use Libraries.Game.Game
+use Libraries.Game.Graphics.Skybox
 
 /*
     This is a default class for creating a game in Quorum. Note that the Main 
