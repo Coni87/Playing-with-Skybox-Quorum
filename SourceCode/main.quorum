@@ -1,5 +1,15 @@
 use Libraries.Game.Game
 use Libraries.Game.Graphics.Skybox
+use Libraries.Game.Graphics.Model
+use Libraries.Game.Graphics.Color
+use Libraries.Game.Graphics.AmbientLight
+use Libraries.Game.Graphics.DirectionalLight
+use Libraries.Game.InputMonitor
+use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Interface.Events.CollisionListener3D
+use Libraries.Interface.Events.CollisionEvent3D
+use Libraries.Game.Graphics.Camera
+
 
 /*
     This is a default class for creating a game in Quorum. Note that the Main 
@@ -8,7 +18,20 @@ use Libraries.Game.Graphics.Skybox
     assets, like images to be displayed, frames of animation, or sounds to be
     played. 
 */
-class Main is Game
+class Main is Game, CollisionListener3D
+Skybox skybox
+InputMonitor im
+KeyboardEvent button
+Camera camera = undefined
+Color color
+AmbientLight al
+DirectionalLight dl
+
+number x = 0
+number y = 0
+number z = 0
+
+
     /*
         This action, Main, starts our computer program. In Quorum, programs always
         begin from Main.
@@ -24,6 +47,12 @@ class Main is Game
         or a Libraries.Interface.TextBox for gathering user input in a game.
     */
     action CreateGame
+        skybox:Load("sandcastle_rt.png", "sandcastle_lf.png","sandcastle_up.png","sandcastle_dn.png","sandcastle_ft.png","sandcastle_bk.png")
+        SetSkybox(skybox)
+
+        camera = GetCamera3D()
+        camera:SetPosition(0, 0, 0)
+        camera:LookAt(0, 0, 1)
     end
 
     /*
@@ -33,5 +62,20 @@ class Main is Game
         or to make creatures jump.
     */
     action Update(number seconds)
+        if  im:IsKeyPressed(button:X)
+            Exit()
+        end
+
+        if im:IsKeyPressed(button:W)
+            y = y + 25*seconds
+            camera:SetYawPitchRoll(x,y,z)
+            
+        end
+    end
+
+    action BeginCollision (CollisionEvent3D event)
+    end
+
+    action FinishCollision (CollisionEvent3D event)
     end
 end
