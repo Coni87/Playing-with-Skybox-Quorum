@@ -26,6 +26,7 @@ Camera camera = undefined
 Color color
 AmbientLight al
 DirectionalLight dl
+Model knight
 
 number x = 0
 number y = 0
@@ -53,6 +54,17 @@ number z = 0
         camera = GetCamera3D()
         camera:SetPosition(0, 0, 0)
         camera:LookAt(0, 0, 1)
+        
+        al:SetColor(0.4,0.4,0.4,1)
+        SetAmbientLight(al)
+
+        dl:SetColor(0.8,0.8,0.8,1)
+        dl:SetDirection(GetCamera3D():GetDirection())
+        Add(dl)
+
+        knight:LoadBox(0.5,0.5,0.5,color:Gray())
+        knight:SetPosition(0,-3,3)
+        Add(knight)
     end
 
     /*
@@ -69,7 +81,11 @@ number z = 0
         if im:IsKeyPressed(button:W)
             y = y + 25*seconds
             camera:SetYawPitchRoll(x,y,z)
-            
+        end
+
+        if im:IsKeyPressed(button:S)
+            y = y - 25*seconds
+            camera:SetYawPitchRoll(x,y,z)
         end
     end
 
